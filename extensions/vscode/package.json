@@ -1,0 +1,78 @@
+{
+  "name": "perfect-agent",
+  "displayName": "PerfectAgent",
+  "description": "Autonomous AI coding agent for VS Code",
+  "version": "0.1.0",
+  "publisher": "perfect-agent",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["AI", "Machine Learning", "Debuggers"],
+  "activationEvents": ["onCommand:perfect-agent.start"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "perfect-agent.start",
+        "title": "PerfectAgent: Start Agent",
+        "icon": "$(play)"
+      },
+      {
+        "command": "perfect-agent.stop",
+        "title": "PerfectAgent: Stop Agent",
+        "icon": "$(stop)"
+      },
+      {
+        "command": "perfect-agent.openPanel",
+        "title": "PerfectAgent: Open Panel"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "perfect-agent",
+          "title": "PerfectAgent",
+          "icon": "$(robot)"
+        }
+      ]
+    },
+    "views": {
+      "perfect-agent": [
+        {
+          "id": "perfect-agent.tree",
+          "name": "Tasks",
+          "type": "tree"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "PerfectAgent",
+      "properties": {
+        "perfectAgent.serverUrl": {
+          "type": "string",
+          "default": "http://localhost:3000",
+          "description": "PerfectAgent server URL"
+        },
+        "perfectAgent.autoApprove": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-approve tool calls"
+        },
+        "perfectAgent.mode": {
+          "type": "string",
+          "enum": ["autonomous", "supervised", "interactive"],
+          "default": "autonomous",
+          "description": "Agent execution mode"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.7.0"
+  }
+}
