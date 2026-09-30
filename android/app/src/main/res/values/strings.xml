@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PerfectAgent</string>
+    <string name="title_activity_main">PerfectAgent</string>
+    <string name="package_name">com.perfectagent.app</string>
+    <string name="custom_url_scheme">com.perfectagent.app</string>
+</resources>
