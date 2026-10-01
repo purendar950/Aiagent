@@ -30,6 +30,11 @@ function selectThread(id: string) {
   state.selectThread(id);
   if (isMobile.value) showSidebar.value = false;
 }
+
+function toggleConfig() {
+  showConfig.value = !showConfig.value;
+  if (showConfig.value && isMobile.value) showSidebar.value = false;
+}
 </script>
 
 <template>
@@ -51,7 +56,7 @@ function selectThread(id: string) {
       ]"
       @select="selectThread"
       @new-thread="state.createThread"
-      @toggle-config="showConfig = !showConfig"
+      @toggle-config="toggleConfig"
     />
 
     <!-- Main Content -->
@@ -114,12 +119,25 @@ function selectThread(id: string) {
       </div>
     </div>
 
-    <!-- Config Panel -->
-    <ConfigPanel
-      v-if="showConfig"
-      :config="state.config.value"
-      @update="state.updateConfig"
-      @close="showConfig = false"
+    <!-- Config Panel Overlay (Mobile) -->
+    <div
+      v-if="showConfig && isMobile"
+      class="fixed inset-0 bg-black/60 z-40"
+      @click="showConfig = false"
     />
+
+    <!-- Config Panel -->
+    <div
+      v-if="showConfig"
+      :class="[
+        isMobile ? 'fixed inset-y-0 right-0 z-50 w-full max-w-sm' : 'w-80 flex-shrink-0'
+      ]"
+    >
+      <ConfigPanel
+        :config="state.config.value"
+        @update="state.updateConfig"
+        @close="showConfig = false"
+      />
+    </div>
   </div>
 </template>
