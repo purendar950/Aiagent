@@ -38,9 +38,9 @@ function handleKeydown(e: KeyboardEvent) {
 </script>
 
 <template>
-  <div class="flex-1 flex flex-col overflow-hidden">
+  <div class="flex-1 flex flex-col overflow-hidden min-h-0">
     <!-- Messages -->
-    <div ref="messagesContainer" class="flex-1 overflow-y-auto p-4 space-y-4">
+    <div ref="messagesContainer" class="flex-1 overflow-y-auto p-3 space-y-3">
       <div
         v-for="message in messages"
         :key="message.id"
@@ -48,22 +48,22 @@ function handleKeydown(e: KeyboardEvent) {
         :class="message.role === 'user' ? 'justify-end' : 'justify-start'"
       >
         <div
-          class="max-w-[80%] rounded-lg px-4 py-2"
+          class="max-w-[85%] rounded-lg px-3 py-2"
           :class="{
             'bg-blue-600 text-white': message.role === 'user',
             'bg-gray-800 text-gray-200': message.role === 'assistant',
             'bg-gray-700 text-gray-300': message.role === 'tool',
           }"
         >
-          <div class="text-sm whitespace-pre-wrap">{{ message.content }}</div>
+          <div class="text-sm whitespace-pre-wrap break-words">{{ message.content }}</div>
           <div v-if="message.toolCalls" class="mt-2 space-y-1">
             <div
               v-for="toolCall in message.toolCalls"
               :key="toolCall.id"
-              class="text-xs px-2 py-1 rounded bg-gray-900/50"
+              class="text-xs px-2 py-1 rounded bg-gray-900/50 break-all"
             >
               <span class="font-mono text-yellow-400">{{ toolCall.tool }}</span>
-              <span class="text-gray-400 ml-2">{{ JSON.stringify(toolCall.params) }}</span>
+              <span class="text-gray-400 ml-1">{{ JSON.stringify(toolCall.params) }}</span>
             </div>
           </div>
         </div>
@@ -71,7 +71,7 @@ function handleKeydown(e: KeyboardEvent) {
 
       <!-- Loading Indicator -->
       <div v-if="isLoading" class="flex justify-start">
-        <div class="bg-gray-800 rounded-lg px-4 py-2">
+        <div class="bg-gray-800 rounded-lg px-3 py-2">
           <div class="flex items-center gap-2 text-sm text-gray-400">
             <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
             Thinking...
@@ -81,33 +81,31 @@ function handleKeydown(e: KeyboardEvent) {
     </div>
 
     <!-- Input -->
-    <div class="border-t border-gray-800 p-4">
-      <div class="flex gap-2">
+    <div class="border-t border-gray-800 p-3 flex-shrink-0">
+      <div class="flex gap-2 items-end">
         <textarea
           v-model="input"
           @keydown="handleKeydown"
           placeholder="Describe a task..."
-          rows="2"
-          class="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:border-blue-500"
+          rows="1"
+          class="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:border-blue-500 min-h-[40px] max-h-[120px]"
           :disabled="isLoading"
         />
-        <div class="flex flex-col gap-2">
-          <button
-            v-if="!isLoading"
-            @click="handleSend"
-            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm transition-colors"
-            :disabled="!input.trim()"
-          >
-            Send
-          </button>
-          <button
-            v-else
-            @click="emit('abort')"
-            class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-sm transition-colors"
-          >
-            Stop
-          </button>
-        </div>
+        <button
+          v-if="!isLoading"
+          @click="handleSend"
+          class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm transition-colors flex-shrink-0"
+          :disabled="!input.trim()"
+        >
+          Send
+        </button>
+        <button
+          v-else
+          @click="emit('abort')"
+          class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-sm transition-colors flex-shrink-0"
+        >
+          Stop
+        </button>
       </div>
     </div>
   </div>

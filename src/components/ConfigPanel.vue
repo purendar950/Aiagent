@@ -16,11 +16,11 @@ function updateConfig(key: keyof AgentConfig, value: any) {
 </script>
 
 <template>
-  <div class="w-80 border-l border-gray-800 bg-gray-900 overflow-y-auto">
+  <div class="w-full sm:w-80 border-l border-gray-800 bg-gray-900 overflow-y-auto h-full">
     <div class="p-4">
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-lg font-semibold">Settings</h2>
-        <button @click="emit('close')" class="text-gray-400 hover:text-gray-200">✕</button>
+        <button @click="emit('close')" class="text-gray-400 hover:text-gray-200 text-xl leading-none">&times;</button>
       </div>
 
       <!-- Mode -->

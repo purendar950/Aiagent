@@ -12,12 +12,12 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <aside class="w-64 border-r border-gray-800 flex flex-col bg-gray-900">
-    <!-- New Task Button -->
-    <div class="p-3">
+  <aside class="border-r border-gray-800 flex flex-col bg-gray-900 h-full">
+    <!-- Header -->
+    <div class="p-3 border-b border-gray-800">
       <button
         @click="emit('newThread')"
-        class="w-full px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors"
+        class="w-full px-3 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors"
       >
         + New Task
       </button>
@@ -29,15 +29,19 @@ const emit = defineEmits<{
         v-for="thread in threads"
         :key="thread.id"
         @click="emit('select', thread.id)"
-        class="px-3 py-2 cursor-pointer hover:bg-gray-800 transition-colors"
+        class="px-3 py-2.5 cursor-pointer hover:bg-gray-800 transition-colors"
         :class="{ 'bg-gray-800': thread.id === selectedThreadId }"
       >
         <div class="text-sm text-gray-200 truncate">{{ thread.title }}</div>
         <div class="text-xs text-gray-500">{{ new Date(thread.createdAt).toLocaleDateString() }}</div>
       </div>
+
+      <div v-if="threads.length === 0" class="px-3 py-8 text-center text-sm text-gray-500">
+        No tasks yet
+      </div>
     </div>
 
-    <!-- Config Button -->
+    <!-- Footer -->
     <div class="p-3 border-t border-gray-800">
       <button
         @click="emit('toggleConfig')"
